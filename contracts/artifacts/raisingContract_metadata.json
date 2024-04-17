@@ -314,6 +314,25 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "contributorsList",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "feePercent",
 				"outputs": [
@@ -801,11 +820,11 @@
 			]
 		},
 		"contracts/RaisingContract.sol": {
-			"keccak256": "0x84fd64fba2832cca8e5cbdabcc78ef96dcdfc4f19d47d409808d5a619d06395b",
+			"keccak256": "0xade4f8c4f204d9fdf6d4863ba3f550717ba40794bbe1fd6b99058b3843d71945",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b161f5c09aa73a49858c8c99b502eddec7b44aeda1b06d5aed70beb8ad4d2301",
-				"dweb:/ipfs/QmWXsjWvN9ayd8MDk5dSQyb43DwjJWsUPm2idubbSrcWWg"
+				"bzz-raw://e7715ef4e3881b1275e7d56e79c036537d8670a81a61b91f13439a61c69d9d43",
+				"dweb:/ipfs/QmXNXFkxudYwCPBJ3FHyaMunxo7DUWDbAgpKmGguMiZv3D"
 			]
 		},
 		"hardhat/console.sol": {

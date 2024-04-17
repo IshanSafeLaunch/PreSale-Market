@@ -27,6 +27,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     bool public raiseEnded;
 
     uint public numOfContributors;
+    address[] public contributorsList;
     mapping(address=>uint) public contributions;
     mapping(address => bool) public whitelist;
 
@@ -89,6 +90,15 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         emit WhitelistUpdated(_account, false);
     }
 
+    function isContributor(address _address) internal view returns (bool) {
+    for (uint i = 0; i < contributorsList.length; i++) {
+        if (contributorsList[i] == _address) {
+            return true;
+        }
+    }
+    return false;
+    }
+
     //Contributing tokens 
     function contribute() external payable nonReentrant{
         require(raiseStarted && !raiseEnded,"Rasie must be ongoing");
@@ -97,6 +107,11 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         contributions[msg.sender] = contributions[msg.sender].add(msg.value);
         totalRaised = totalRaised.add(msg.value);
         numOfContributors++;
+
+        // Add the contributor to the list if not already present
+        if (!isContributor(msg.sender)) {
+            contributorsList.push(msg.sender);
+        }
 
         emit totalContributed(msg.sender,msg.value,block.timestamp);
     }
@@ -155,16 +170,17 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
             console.log("Checking every contributor");
             for(uint i = 0; i < numOfContributors; i++){
-                address contributor = payable(address(uint160(i))); 
+                address contributor = payable(address(uint160(i)));
+                //address contributor = contributorsList[i];
                 console.log("contributor list" , contributor);
                 
                 uint contribution = contributions[contributor];
                 console.log("Hello hi how do you do");
                 if(contribution > refundAmountPerContributor){
                     require(contributor != address(0) || contributor != 0x0000000000000000000000000000000000000000,"Not a valid address");
+                    console.log("Are we really refunding to the users");
                     (bool contributorSend) = payable(contributor).send(refundAmountPerContributor);
                     require(contributorSend,"Txn failed for the contributorSend");
-                    // string memory con1 = "Refund to contributor: ";
                     // (bool contributorSend,) = payable(contributor).call{value:refundAmountPerContributor}("");
                     // string memory con1 = "Refund to contributor: ";
                     // require(contributorSend, string(abi.encodePacked(con1, contributor)));
