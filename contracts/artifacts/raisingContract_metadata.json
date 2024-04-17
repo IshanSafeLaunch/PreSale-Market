@@ -801,11 +801,11 @@
 			]
 		},
 		"contracts/RaisingContract.sol": {
-			"keccak256": "0xce012609c3f79cbeb77c2b05939a487d8fde7352c5200dad02f80e51d1493bc8",
+			"keccak256": "0x84fd64fba2832cca8e5cbdabcc78ef96dcdfc4f19d47d409808d5a619d06395b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e14af491fda46fcb534604e3399bfc6000fbef042cc7cb0f5dcfbee1e2e9abcd",
-				"dweb:/ipfs/QmaoajkZFu8UVhhaFqiKZDVcM31o9mTn96EFUGFfN7vtXE"
+				"bzz-raw://b161f5c09aa73a49858c8c99b502eddec7b44aeda1b06d5aed70beb8ad4d2301",
+				"dweb:/ipfs/QmWXsjWvN9ayd8MDk5dSQyb43DwjJWsUPm2idubbSrcWWg"
 			]
 		},
 		"hardhat/console.sol": {

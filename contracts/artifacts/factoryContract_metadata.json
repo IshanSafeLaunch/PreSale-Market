@@ -247,11 +247,11 @@
 			]
 		},
 		"contracts/RaisingContract.sol": {
-			"keccak256": "0x6b273569b825fa0c6f904daf2647cbbf363b9f48da407246fe5fcf4fbe0472a0",
+			"keccak256": "0x5586f0f98e73d4f26a94c4d5b10f32b9fa87c0f371bb837b3b6a80a9740142a7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ab6cd33d9ca4d2339741c0ef889c07fe56f2bf9a73667165e5e1cd240808a022",
-				"dweb:/ipfs/QmPas7M2HxbfwQWZ3GoL39ZzsfsgKp1cmyRoYYePofWyrZ"
+				"bzz-raw://d6dbf5a8f6316f2ea61765b84f28029ed435125a82e1cd693743b7170a1fcc83",
+				"dweb:/ipfs/Qmd3gsYbhmTF11ixaE2wWQdERm2VZvCf6ZCadqk2NZ7nYx"
 			]
 		},
 		"contracts/factoryContract.sol": {
