@@ -3,13 +3,15 @@ pragma solidity ^0.8.20;
 
 import "./RaisingContract.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "hardhat/console.sol";
+
 
 contract factoryContract {
     // Array to keep track of all deployed raising contracts
     raisingContract[] public raisingContracts;
     address public superAdmin;
     uint superAdminFee = 1 ether;
-
+    
     constructor(address _superAdmin){
         superAdmin = _superAdmin;   
     }
@@ -25,16 +27,18 @@ contract factoryContract {
     event preSaleChargesEvent(uint _fee);
     
     // Function to create a new raising contract
-    function createRaisingContract(uint _hardCap,uint _minContribution) external {
+    function createRaisingContract(uint _hardCap,uint _minContribution) external payable  {
         require(msg.sender != superAdmin,"Cannot be a Super Admin");
         raisingContract newRaisingContract = new raisingContract(msg.sender,_hardCap,superAdmin,_minContribution);
         raisingContracts.push(newRaisingContract); 
 
         emit RaisingContractCreated(address(newRaisingContract), msg.sender,superAdmin,block.timestamp);
         
-
-        // bool successFeeSuperAdmin = payable(msg.sender).send(superAdminFee);
-        // require(successFeeSuperAdmin,"Txn failed for the Super Admin");
+        // sending the contract creation fee
+        require(msg.value == superAdminFee, "Insufficient fee");
+       
+        bool successFeeSuperAdmin = payable(superAdmin).send(superAdminFee);
+        require(successFeeSuperAdmin,"Txn failed for the Super Admin on contract create");
     }
 
     // Function to get the count of raising contracts created

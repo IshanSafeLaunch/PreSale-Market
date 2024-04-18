@@ -96,7 +96,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
             return true;
         }
     }
-    return false;
+            return false;
     }
 
     //Contributing tokens 
@@ -108,7 +108,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         totalRaised = totalRaised.add(msg.value);
         numOfContributors++;
 
-        // Add the contributor to the list if not already present
+        //Add the contributor to the list if not already present
         if (!isContributor(msg.sender)) {
             contributorsList.push(msg.sender);
         }
@@ -127,6 +127,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         uint adminAmount;
 
         if(totalRaised < hardCap){
+            console.log("When totalRasied < hardCap"); 
             console.log("TotalRaised", totalRaised);
 
             //Calculating Admin and SuperAdmin to transfer when totalRaised < hardCap
@@ -144,7 +145,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
             require(trasnferSuperAdminLessTotalRaise,"Txn failed for the Super Admin when total rasied < hardcap");
 
         }else if(totalRaised > hardCap){
-            // When totalRasied is greater than hardCap 
+            console.log("When totalRasied > hardCap"); 
             //require(totalRaised > hardCap,"TotalRaised is less than hardCap");
             console.log("TotalRaised", totalRaised);
 
@@ -165,13 +166,13 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
 
             //Returning the overflow value to the contributors
-            uint refundAmountPerContributor = (totalRaised.sub(hardCap)).div(numOfContributors);
+            uint refundAmountPerContributor = totalRaised.sub(hardCap).div(numOfContributors);
             console.log("refundAmountPerContributor", refundAmountPerContributor);
 
             console.log("Checking every contributor");
             for(uint i = 0; i < numOfContributors; i++){
-                address contributor = payable(address(uint160(i)));
-                //address contributor = contributorsList[i];
+                //address contributor = payable(address(uint160(i)));
+                address contributor = contributorsList[i];
                 console.log("contributor list" , contributor);
                 
                 uint contribution = contributions[contributor];
@@ -188,6 +189,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
                 console.log("return Amount", refundAmountPerContributor);
             }
         }else if(totalRaised == hardCap){
+            console.log("When totalRasied == hardCap"); 
             console.log("TotalRaised", totalRaised);
 
             // Calculating Admin and SuperAdmin to transfer.
