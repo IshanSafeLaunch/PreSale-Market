@@ -38,7 +38,7 @@ contract factoryContract {
         require(msg.value == superAdminFee, "Insufficient fee");
        
         bool successFeeSuperAdmin = payable(superAdmin).send(superAdminFee);
-        require(successFeeSuperAdmin,"Txn failed for the Super Admin on contract create");
+        require(successFeeSuperAdmin,"Txn failed for the Super Admin on contract creation");
     }
 
     // Function to get the count of raising contracts created

@@ -176,7 +176,6 @@ contract raisingContract is AccessControl, ReentrancyGuard{
                 console.log("contributor list" , contributor);
                 
                 uint contribution = contributions[contributor];
-                console.log("Hello hi how do you do");
                 if(contribution > refundAmountPerContributor){
                     require(contributor != address(0) || contributor != 0x0000000000000000000000000000000000000000,"Not a valid address");
                     console.log("Are we really refunding to the users");
