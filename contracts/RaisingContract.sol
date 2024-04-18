@@ -72,10 +72,10 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     }
 
 
-    function endRaise() internal{
+    function endRaise() external {
         require(!raiseEnded, "Raise already ended");
         raiseEnded = true;
-        //this.finaliseRaise();
+        this.finaliseRaise();
         emit raiseEndedEvent();
     }
 
@@ -119,7 +119,6 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
     // Finalising the tokens to all at the end
     function finaliseRaise() external payable adminOrsuperAdmin nonReentrant{
-        endRaise();
         require(raiseEnded = true, "Raise not ended");
         require(totalRaised > 0,"RasiedAmout should not be zero");
 
