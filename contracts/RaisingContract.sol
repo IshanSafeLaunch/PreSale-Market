@@ -30,6 +30,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     address[] public contributorsList;
     mapping(address=>uint) public contributions;
     mapping(address => bool) public whitelist;
+    bool public whitelistEnabled;
 
     //Events
     event raiseEndedEvent();
@@ -42,11 +43,12 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         
     
     //Have to add gratRole for SuperAdmin
-    constructor(address _admin,uint _hardcap,address _superAdmin,uint _minContribution) {
+    constructor(address _admin,uint _hardcap,address _superAdmin, uint _maxContribution,uint _minContribution) {
         superAdmin = _superAdmin;
         contractCreator = _admin;
         hardCap = _hardcap;
         minContribution = _minContribution;
+        maxContribution = _maxContribution;
 
         _grantRole(ADMIN_ROLE, contractCreator);
         _grantRole(SUPER_ADMIN, _superAdmin);
@@ -72,11 +74,22 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     }
 
 
-    function endRaise() external {
+    function endRaise() external adminOrsuperAdmin {
         require(!raiseEnded, "Raise already ended");
         raiseEnded = true;
         this.finaliseRaise();
         emit raiseEndedEvent();
+    }
+
+     // Enable the whitelist
+    function enableWhitelist() external onlyAdmin {
+        whitelistEnabled = true;
+        
+    }
+
+    // Disable the whitelist
+    function disableWhitelist() external onlyAdmin {
+        whitelistEnabled = false;
     }
 
     // adding contributors to whitelist
@@ -101,18 +114,33 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
     //Contributing tokens 
     function contribute() external payable nonReentrant{
-        require(raiseStarted && !raiseEnded,"Rasie must be ongoing");
-        require(msg.value >= minContribution && msg.value != 0, "Contribution should be greater than minimum Contribution");
+        require(raiseStarted && !raiseEnded,"Raise must be ongoing");
+        require(msg.value >= minContribution && msg.value != 0 && msg.value <= maxContribution, "Contribution should be in between min and max");
+
+        // when whitelist contribution is enabled
+        if(whitelistEnabled){
+        require(whitelist[msg.sender] == true,"Not a whiteList User");
 
         contributions[msg.sender] = contributions[msg.sender].add(msg.value);
         totalRaised = totalRaised.add(msg.value);
         numOfContributors++;
 
-        //Add the contributor to the list if not already present
-        if (!isContributor(msg.sender)) {
-            contributorsList.push(msg.sender);
-        }
+            //Add the contributor to the list if not already present
+            if (!isContributor(msg.sender)) {
+                contributorsList.push(msg.sender);
+            }
 
+        // when whitelist is disabled
+        }else if(!whitelistEnabled){ 
+            contributions[msg.sender] = contributions[msg.sender].add(msg.value);
+            totalRaised = totalRaised.add(msg.value);
+            numOfContributors++;
+
+            //Add the contributor to the list if not already present
+            if (!isContributor(msg.sender)) {
+                contributorsList.push(msg.sender);
+            }
+        } 
         emit totalContributed(msg.sender,msg.value,block.timestamp);
     }
 
@@ -178,11 +206,9 @@ contract raisingContract is AccessControl, ReentrancyGuard{
                 if(contribution > refundAmountPerContributor){
                     require(contributor != address(0) || contributor != 0x0000000000000000000000000000000000000000,"Not a valid address");
                     console.log("Are we really refunding to the users");
-                    (bool contributorSend) = payable(contributor).send(refundAmountPerContributor);
-                    require(contributorSend,"Txn failed for the contributorSend");
-                    // (bool contributorSend,) = payable(contributor).call{value:refundAmountPerContributor}("");
-                    // string memory con1 = "Refund to contributor: ";
-                    // require(contributorSend, string(abi.encodePacked(con1, contributor)));
+                    (bool contributorSend,) = payable(contributor).call{value:refundAmountPerContributor}("");
+                    string memory con1 = "Refund to contributor: ";
+                    require(contributorSend, string(abi.encodePacked(con1, contributor)));
                 }
                 console.log("return Amount", refundAmountPerContributor);
             }

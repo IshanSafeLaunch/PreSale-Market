@@ -27,18 +27,19 @@ contract factoryContract {
     event preSaleChargesEvent(uint _fee);
     
     // Function to create a new raising contract
-    function createRaisingContract(uint _hardCap,uint _minContribution) external payable  {
+    function createRaisingContract(uint _hardCap,uint _maxContribution,uint _minContribution) external payable  {
         require(msg.sender != superAdmin,"Cannot be a Super Admin");
-        raisingContract newRaisingContract = new raisingContract(msg.sender,_hardCap,superAdmin,_minContribution);
+        raisingContract newRaisingContract = new raisingContract(msg.sender,_hardCap,superAdmin,_maxContribution,_minContribution);
         raisingContracts.push(newRaisingContract); 
 
         emit RaisingContractCreated(address(newRaisingContract), msg.sender,superAdmin,block.timestamp);
         
         // sending the contract creation fee
         require(msg.value == superAdminFee, "Insufficient fee");
-       
-        bool successFeeSuperAdmin = payable(superAdmin).send(superAdminFee);
-        require(successFeeSuperAdmin,"Txn failed for the Super Admin on contract creation");
+
+        (bool successFeeSuperAdmin,) = payable(superAdmin).call{value:superAdminFee}("");
+        string memory con1 = "Contract Creation Txn Fees Filed : ";
+        require(successFeeSuperAdmin, string(abi.encodePacked(con1, successFeeSuperAdmin)));
     }
 
     // Function to get the count of raising contracts created
