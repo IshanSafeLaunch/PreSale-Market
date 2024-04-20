@@ -11,6 +11,8 @@ contract factoryContract {
     raisingContract[] public raisingContracts;
     address public superAdmin;
     uint superAdminFee = 1 ether;
+
+    raisingContract instance;
     
     constructor(address _superAdmin){
         superAdmin = _superAdmin;   
@@ -57,5 +59,4 @@ contract factoryContract {
         emit preSaleChargesEvent(_fee);
     }
 
-    
 }

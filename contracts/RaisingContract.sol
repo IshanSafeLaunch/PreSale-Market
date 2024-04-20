@@ -12,8 +12,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
     // defining access control
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
-    bytes32 public constant SUPER_ADMIN = keccak256("SUPER_ADMIN");
-    
+
 
     address public superAdmin;
     address public contractCreator;
@@ -51,23 +50,18 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         maxContribution = _maxContribution;
 
         _grantRole(ADMIN_ROLE, contractCreator);
-        _grantRole(SUPER_ADMIN, _superAdmin);
-    }
-
-
-    // projectAdminAccess
-    modifier onlyAdmin(){
-        require(hasRole(ADMIN_ROLE,contractCreator), "Not the admin");
-        _;
+        _grantRole(DEFAULT_ADMIN_ROLE, _superAdmin);
     }
 
     // Have to define access to the this admin and the superAdmin
     modifier adminOrsuperAdmin(){
-        require(hasRole(ADMIN_ROLE,contractCreator) || hasRole(SUPER_ADMIN, superAdmin),"Must have defined Roles");
+        console.log("Contract Creator", contractCreator);
+        console.log("SuperAdmin", superAdmin);
+        require(hasRole(ADMIN_ROLE,msg.sender) || hasRole(DEFAULT_ADMIN_ROLE, msg.sender),"Must have defined Roles");
         _;
     }
 
-    function startRaise() external onlyAdmin {
+    function startRaise() external adminOrsuperAdmin {
         require(!raiseStarted, "Raise already started");
         raiseStarted = true;
         emit raiseStartedEvent();
@@ -82,23 +76,22 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     }
 
      // Enable the whitelist
-    function enableWhitelist() external onlyAdmin {
-        whitelistEnabled = true;
-        
+    function enableWhitelist() external adminOrsuperAdmin {
+        whitelistEnabled = true;      
     }
 
     // Disable the whitelist
-    function disableWhitelist() external onlyAdmin {
+    function disableWhitelist() external adminOrsuperAdmin {
         whitelistEnabled = false;
     }
 
     // adding contributors to whitelist
-    function addToWhitelist(address _account) external onlyAdmin {
+    function addToWhitelist(address _account) external onlyRole(ADMIN_ROLE) {
         whitelist[_account] = true;
         emit WhitelistUpdated(_account, true);
     }
     // removing contributors to whitelist
-    function removeFromWhitelist(address _account) external onlyAdmin {
+    function removeFromWhitelist(address _account) external onlyRole(ADMIN_ROLE) {
         whitelist[_account] = false;
         emit WhitelistUpdated(_account, false);
     }
@@ -146,8 +139,9 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
 
     // Finalising the tokens to all at the end
-    function finaliseRaise() external payable adminOrsuperAdmin nonReentrant{
-        require(raiseEnded = true, "Raise not ended");
+    function finaliseRaise() external payable nonReentrant adminOrsuperAdmin{
+        raiseEnded = true;
+        require(raiseEnded == true, "Raise not ended");
         require(totalRaised > 0,"RasiedAmout should not be zero");
 
         uint superAdminAmt; 
@@ -189,7 +183,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
             
             //superAdmin fee transfer when totalRaised > hardCap
             bool sucessTransferSuperAdmin = payable(superAdmin).send(superAdminAmt);
-            require(sucessTransferSuperAdmin,"Txn failed for the admin when total rasied > hardcap");
+            require(sucessTransferSuperAdmin,"Txn failed for the SuperAdmin when total rasied > hardcap");
 
 
             //Returning the overflow value to the contributors
@@ -207,7 +201,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
                     require(contributor != address(0) || contributor != 0x0000000000000000000000000000000000000000,"Not a valid address");
                     console.log("Are we really refunding to the users");
                     (bool contributorSend,) = payable(contributor).call{value:refundAmountPerContributor}("");
-                    string memory con1 = "Refund to contributor: ";
+                    string memory con1 = "Refund failed for contributor: ";
                     require(contributorSend, string(abi.encodePacked(con1, contributor)));
                 }
                 console.log("return Amount", refundAmountPerContributor);
@@ -229,7 +223,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
             
             //superAdmin fee transfer when totalRaised > hardCap
             bool sucessTransferSuperAdmin = payable(superAdmin).send(superAdminAmt);
-            require(sucessTransferSuperAdmin,"Txn failed for the admin when total rasied == hardcap");
+            require(sucessTransferSuperAdmin,"Txn failed for the SuperAdmin when total rasied == hardcap");
         }      
          
 
@@ -246,34 +240,34 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
 
     // setter function for MinContribution
-    function setMinContribution(uint256 _min) external onlyAdmin {
+    function setMinContribution(uint256 _min) external onlyRole(ADMIN_ROLE) {
         minContribution = _min;
         emit MinContributionSet(_min);
     }
     //setter function for MaxContribution
-    function setMaxContribution(uint256 _max) external onlyAdmin {
+    function setMaxContribution(uint256 _max) external onlyRole(ADMIN_ROLE) {
         maxContribution = _max;
         emit MaxContributionSet(_max);
     }
     //setter function for increaseHardCap
-    function increaseHardCap(uint _newHardCap) external onlyAdmin {
+    function increaseHardCap(uint _newHardCap) external onlyRole(ADMIN_ROLE) {
         hardCap = _newHardCap;
         emit HardCapIncreased(_newHardCap);
     }
 
     // setter function for changingHardcap
-    function setHardCap(uint _hardCap) external onlyAdmin {
+    function setHardCap(uint _hardCap) external onlyRole(ADMIN_ROLE) {
         hardCap = _hardCap;
     }
 
     // setter function for changingFeePercentage
-    function setFeePercent(uint _feePercent) external onlyAdmin {
+    function setFeePercent(uint _feePercent) external onlyRole(ADMIN_ROLE) {
         feePercent = _feePercent;
     }
 
-    // getContract Balance
-    function getContractBalance() public view returns(uint){
-        return address(this).balance;
-    }
+    // // getContract Balance
+    // function getContractBalance() public view returns(uint){
+    //     return address(this).balance;
+    // }
 
 }

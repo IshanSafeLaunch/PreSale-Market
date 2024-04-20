@@ -254,19 +254,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "SUPER_ADMIN",
-				"outputs": [
-					{
-						"internalType": "bytes32",
-						"name": "",
-						"type": "bytes32"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -376,19 +363,6 @@
 				"name": "finaliseRaise",
 				"outputs": [],
 				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getContractBalance",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -859,11 +833,11 @@
 			]
 		},
 		"contracts/RaisingContract.sol": {
-			"keccak256": "0xc1643897985031c135ff1627c018c4fd5cc859af223fb0f73d42613cdd645cf8",
+			"keccak256": "0x8d2e508b824329a62d2170b962843107da0784d0ea415adefe7f5b96ca7f7dc5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://81cfa002501bb180a8fc8681b59263b2c14d3d4d568bd78640b8fec56ca24876",
-				"dweb:/ipfs/QmapseeKgoGet84axxZaEWLxwkyn6iTQhNouux3pfVBzoW"
+				"bzz-raw://3ab317c80a7dd67e194de7ec743a54a324fd5d750ee0d158bd879f9d1e179371",
+				"dweb:/ipfs/Qma8Ehw3LNJyYqGpMxFWnAg12NLWWry1dGwE62Ab5TKLwa"
 			]
 		},
 		"hardhat/console.sol": {
