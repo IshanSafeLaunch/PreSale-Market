@@ -52,8 +52,8 @@ contract raisingContract is AccessControl, ReentrancyGuard {
     //Have to add gratRole for SuperAdmin
     constructor(
         address _admin,
-        address stableCoin,
         address _superAdmin,
+        address stableCoin,
         uint256 _maxContribution,
         uint256 _minContribution
     ) {
@@ -62,8 +62,8 @@ contract raisingContract is AccessControl, ReentrancyGuard {
         minContribution = _minContribution;
         maxContribution = _maxContribution;
         usdtToken = IERC20(stableCoin);
-        _grantRole(ADMIN_ROLE, contractCreator);
-        _grantRole(DEFAULT_ADMIN_ROLE, _superAdmin);
+        _grantRole(ADMIN_ROLE,contractCreator);
+        _grantRole(DEFAULT_ADMIN_ROLE,superAdmin);
     }
 
     // Have to define access to the this admin and the superAdmin
@@ -213,7 +213,7 @@ contract raisingContract is AccessControl, ReentrancyGuard {
     }
 
     // Finalising the tokens to all at the end
-    function finaliseRaise() external payable nonReentrant adminOrsuperAdmin {
+    function finaliseRaise() external payable nonReentrant adminOrsuperAdmin() {
         raiseEnded = true;
         require(raiseEnded == true, "Raise not ended");
         require(totalRaised > 0 && numOfContributors > 0, "RasiedAmout and No of Contributors should be > 0");

@@ -44,15 +44,15 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         
     
     //Have to add gratRole for SuperAdmin
-    constructor(address _admin,uint _hardcap,address _superAdmin, uint _maxContribution,uint _minContribution) {
+    constructor(address _admin,address _superAdmin, uint _maxContribution,uint _minContribution) {
         superAdmin = _superAdmin;
         contractCreator = _admin;
-        hardCap = _hardcap;
+        // hardCap = _hardcap;
         minContribution = _minContribution;
         maxContribution = _maxContribution;
 
         _grantRole(ADMIN_ROLE, contractCreator);
-        _grantRole(DEFAULT_ADMIN_ROLE, _superAdmin);
+        _grantRole(DEFAULT_ADMIN_ROLE, superAdmin);
     }
 
     // Have to define access to the this admin and the superAdmin
@@ -76,15 +76,16 @@ contract raisingContract is AccessControl, ReentrancyGuard{
         emit raiseEndedEvent();
     }
 
-     // Enable the whitelist
-    function enableWhitelist() external adminOrsuperAdmin {
-        whitelistEnabled = true;      
+    // Enable the whitelist
+    function enableWhitelist(uint _setHardCap) external adminOrsuperAdmin {
+        whitelistEnabled = true;
+        this.setHardCap(_setHardCap);
     }
 
     // Disable the whitelist
-    function disableWhitelist() external adminOrsuperAdmin {
-        whitelistEnabled = false;
-    }
+    // function disableWhitelist() external adminOrsuperAdmin {
+    //     whitelistEnabled = false;
+    // }
 
     // adding contributors to whitelist
     function addToWhitelist(address _account) external onlyRole(ADMIN_ROLE) {
@@ -140,100 +141,247 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
 
     // Finalising the tokens to all at the end
-    function finaliseRaise() external payable nonReentrant adminOrsuperAdmin{
+    // function finaliseRaise() external payable nonReentrant adminOrsuperAdmin{
+    //     raiseEnded = true;
+    //     require(raiseEnded == true, "Raise not ended");
+    //     require(totalRaised > 0,"RasiedAmout should not be zero");
+
+    //     uint superAdminAmt; 
+    //     uint adminAmount;
+
+    //     if(totalRaised < hardCap){
+    //         console.log("When totalRasied < hardCap"); 
+    //         console.log("TotalRaised", totalRaised);
+
+    //         //Calculating Admin and SuperAdmin to transfer when totalRaised < hardCap
+    //         superAdminAmt = (totalRaised.mul(feePercent)).div(100);
+    //         adminAmount = totalRaised.sub(superAdminAmt);
+    //         console.log("superAdminAmt When total rasied < hardcap ",superAdminAmt);
+    //         console.log("adminAmount When total rasied < hardcap",adminAmount);
+
+    //         //Admin fee transfer when totalRaised < hardCap
+    //         bool trasnferAdminLessTotalRaise = payable(contractCreator).send(adminAmount);
+    //         require(trasnferAdminLessTotalRaise,"Txn failed for the admin when total rasied < hardcap");
+
+    //         //superAdmin fee transfer when totalRaised < hardCap
+    //         bool trasnferSuperAdminLessTotalRaise = payable(superAdmin).send(superAdminAmt);
+    //         require(trasnferSuperAdminLessTotalRaise,"Txn failed for the Super Admin when total rasied < hardcap");
+
+    //     }else if(totalRaised > hardCap){
+    //         console.log("When totalRasied > hardCap"); 
+    //         //require(totalRaised > hardCap,"TotalRaised is less than hardCap");
+    //         console.log("TotalRaised", totalRaised);
+
+    //         // Calculating Admin and SuperAdmin to transfer.
+    //         superAdminAmt = (hardCap.mul(feePercent)).div(100);
+    //         adminAmount = hardCap.sub(superAdminAmt);
+    //         console.log("superAdminAmt When total rasied > hardcap ",superAdminAmt);
+    //         console.log("adminAmount When total rasied > hardcap",adminAmount);
+
+    //         //Admin fee transfer when totalRaised > hardCap
+    //         bool successTransferAdmin = payable(contractCreator).send(adminAmount);
+    //         require(successTransferAdmin,"Txn failed for the admin when total rasied > hardcap");
+            
+            
+    //         //superAdmin fee transfer when totalRaised > hardCap
+    //         bool sucessTransferSuperAdmin = payable(superAdmin).send(superAdminAmt);
+    //         require(sucessTransferSuperAdmin,"Txn failed for the SuperAdmin when total rasied > hardcap");
+
+
+    //         //Returning the overflow value to the contributors
+    //         uint refundAmountPerContributor = totalRaised.sub(hardCap).div(numOfContributors);
+    //         console.log("refundAmountPerContributor", refundAmountPerContributor);
+
+    //         console.log("Checking every contributor");
+    //         for(uint i = 0; i < numOfContributors; i++){
+    //             //address contributor = payable(address(uint160(i)));
+    //             address contributor = contributorsList[i];
+    //             console.log("contributor list" , contributor);
+                
+    //             uint contribution = contributions[contributor];
+    //             if(contribution > refundAmountPerContributor){
+    //                 require(contributor != address(0) || contributor != 0x0000000000000000000000000000000000000000,"Not a valid address");
+    //                 console.log("Are we really refunding to the users");
+    //                 (bool contributorSend,) = payable(contributor).call{value:refundAmountPerContributor}("");
+    //                 string memory con1 = "Refund failed for contributor: ";
+    //                 require(contributorSend, string(abi.encodePacked(con1, contributor)));
+    //             }
+    //             console.log("return Amount", refundAmountPerContributor);
+    //         }
+    //     }else if(totalRaised == hardCap){
+    //         console.log("When totalRasied == hardCap"); 
+    //         console.log("TotalRaised", totalRaised);
+
+    //         // Calculating Admin and SuperAdmin to transfer.
+    //         superAdminAmt = (hardCap.mul(feePercent)).div(100);
+    //         adminAmount = hardCap.sub(superAdminAmt);
+    //         console.log("superAdminAmt When total rasied == hardcap ",superAdminAmt);
+    //         console.log("adminAmount When total rasied == hardcap",adminAmount);
+
+    //         //Admin fee transfer when totalRaised > hardCap
+    //         bool successTransferAdmin = payable(contractCreator).send(adminAmount);
+    //         require(successTransferAdmin,"Txn failed for the admin when total rasied == hardcap");
+            
+            
+    //         //superAdmin fee transfer when totalRaised > hardCap
+    //         bool sucessTransferSuperAdmin = payable(superAdmin).send(superAdminAmt);
+    //         require(sucessTransferSuperAdmin,"Txn failed for the SuperAdmin when total rasied == hardcap");
+    //     }      
+         
+
+    //     totalRaised = 0;
+    //     numOfContributors = 0;
+    //     raiseStarted = false;
+    //     raiseEnded = true;
+
+    // }
+
+     function finaliseRaise() external payable nonReentrant adminOrsuperAdmin {
         raiseEnded = true;
         require(raiseEnded == true, "Raise not ended");
-        require(totalRaised > 0,"RasiedAmout should not be zero");
+        require(totalRaised > 0 && numOfContributors > 0, "RasiedAmout and No of Contributors should be > 0");
 
-        uint superAdminAmt; 
-        uint adminAmount;
+        uint256 superAdminAmt;
+        uint256 adminAmount;
 
-        if(totalRaised < hardCap){
-            console.log("When totalRasied < hardCap"); 
-            console.log("TotalRaised", totalRaised);
+        if(whitelistEnabled && hardCap > 0){
 
-            //Calculating Admin and SuperAdmin to transfer when totalRaised < hardCap
+            if (totalRaised < hardCap) {
+                console.log("When totalRasied < hardCap");
+                console.log("TotalRaised", totalRaised);
+
+                //Calculating Admin and SuperAdmin to transfer when totalRaised < hardCap
+                superAdminAmt = (totalRaised.mul(feePercent)).div(100);
+                adminAmount = totalRaised.sub(superAdminAmt);
+                console.log(
+                    "superAdminAmt When total rasied < hardcap ",
+                    superAdminAmt
+                );
+                console.log("adminAmount When total rasied < hardcap", adminAmount);
+
+                //Admin fee transfer when totalRaised < hardCap
+                (bool trasnferAdminLessTotalRaise,) = payable(contractCreator).call{value:adminAmount}("");
+                string memory con1 = "Txn failed for the Admin when total rasied < hardcap : ";
+                require(trasnferAdminLessTotalRaise, string(abi.encodePacked(con1, trasnferAdminLessTotalRaise)));
+                
+
+                //superAdmin fee transfer when totalRaised < hardCap
+                (bool trasnferSuperAdminLessTotalRaise,) = payable(superAdmin).call{value:superAdminAmt}("");
+                string memory con2 = "Txn failed for the Super Admin when total rasied < hardcap : ";
+                require(trasnferSuperAdminLessTotalRaise, string(abi.encodePacked(con2, trasnferSuperAdminLessTotalRaise)));
+
+            } else if (totalRaised > hardCap) {
+                console.log("When totalRasied > hardCap");
+                //require(totalRaised > hardCap,"TotalRaised is less than hardCap");
+                console.log("TotalRaised", totalRaised);
+
+                // Calculating Admin and SuperAdmin to transfer.
+                superAdminAmt = (hardCap.mul(feePercent)).div(100);
+                adminAmount = hardCap.sub(superAdminAmt);
+                console.log(
+                    "superAdminAmt When total rasied > hardcap ",
+                    superAdminAmt
+                );
+                console.log("adminAmount When total rasied > hardcap", adminAmount);
+
+                //Admin fee transfer when totalRaised > hardCap
+                (bool successTransferAdmin,) = payable(contractCreator).call{value:adminAmount}("");
+                string memory con1 = "Txn failed for the Admin when total rasied > hardcap : ";
+                require(successTransferAdmin, string(abi.encodePacked(con1, successTransferAdmin)));
+
+                //superAdmin fee transfer when totalRaised > hardCap
+                (bool sucessTransferSuperAdmin,) = payable(superAdmin).call{value:superAdminAmt}("");
+                string memory con2 = "Txn failed for the Super Admin when total rasied > hardcap : ";
+                require(sucessTransferSuperAdmin, string(abi.encodePacked(con2, sucessTransferSuperAdmin)));
+
+                //Returning the overflow value to the whitelist contributors
+                uint256 refundAmountPerContributor = totalRaised.sub(hardCap).div(
+                    numOfContributors
+                );
+                console.log(
+                    "refundAmountPerContributor",
+                    refundAmountPerContributor
+                );
+
+                console.log("Checking every contributor");
+                for (uint256 i = 0; i < numOfContributors; i++) {
+                    //address contributor = payable(address(uint160(i)));
+                    address contributor = contributorsList[i];
+                    console.log("contributor list", contributor);
+
+                    uint256 contribution = contributions[contributor];
+                    if (contribution > refundAmountPerContributor) {
+                        require(
+                            contributor != address(0) ||
+                                contributor !=
+                                0x0000000000000000000000000000000000000000,
+                            "Not a valid address"
+                        );
+                        console.log("Are we really refunding to the users");
+                        (bool contributorSend, ) = payable(contributor).call{
+                            value: refundAmountPerContributor
+                        }("");
+                        string memory con3 = "Txn failed for the whitelisted contributor when total rasied > hardcap : ";
+                        require(
+                            contributorSend,
+                            string(abi.encodePacked(con3, contributor))
+                        );
+                    }
+                    console.log("return Amount", refundAmountPerContributor);
+                }
+            } else if (totalRaised == hardCap) {
+                console.log("When totalRasied == hardCap");
+                console.log("TotalRaised", totalRaised);
+
+                // Calculating Admin and SuperAdmin to transfer.
+                superAdminAmt = (hardCap.mul(feePercent)).div(100);
+                adminAmount = hardCap.sub(superAdminAmt);
+                console.log(
+                    "superAdminAmt When total rasied == hardcap ",
+                    superAdminAmt
+                );
+                console.log(
+                    "adminAmount When total rasied == hardcap",
+                    adminAmount
+                );
+
+                //Admin fee transfer when totalRaised > hardCap
+                (bool successTransferAdmin,) = payable(contractCreator).call{value:adminAmount}("");
+                string memory con1 = "Txn failed for the Admin when total rasied == hardcap : ";
+                require(successTransferAdmin, string(abi.encodePacked(con1, successTransferAdmin)));
+
+                //superAdmin fee transfer when totalRaised > hardCap
+                (bool sucessTransferSuperAdmin,) = payable(superAdmin).call{value:superAdminAmt}("");
+                string memory con2 = "Txn failed for the Super Admin when total rasied == hardcap : ";
+                require(sucessTransferSuperAdmin, string(abi.encodePacked(con2, sucessTransferSuperAdmin)));
+            }
+        } else if(!whitelistEnabled && hardCap == 0){
+            //Calculating Admin and SuperAdmin to transfer when there is no hardcap set
             superAdminAmt = (totalRaised.mul(feePercent)).div(100);
             adminAmount = totalRaised.sub(superAdminAmt);
-            console.log("superAdminAmt When total rasied < hardcap ",superAdminAmt);
-            console.log("adminAmount When total rasied < hardcap",adminAmount);
 
-            //Admin fee transfer when totalRaised < hardCap
-            bool trasnferAdminLessTotalRaise = payable(contractCreator).send(adminAmount);
-            require(trasnferAdminLessTotalRaise,"Txn failed for the admin when total rasied < hardcap");
+            console.log("superAdminAmt when there is no hardcap set",superAdminAmt);
+            console.log("adminAmount when there is no hardcap set", adminAmount);
+
+            //Admin fee transfer when there is no harcap
+            (bool trasnferAdminTotalRaise,) = payable(contractCreator).call{value:adminAmount}("");
+            string memory con1 = "Txn failed for the Admin when there is no hardcap set : ";
+            require(trasnferAdminTotalRaise, string(abi.encodePacked(con1, trasnferAdminTotalRaise)));
 
             //superAdmin fee transfer when totalRaised < hardCap
-            bool trasnferSuperAdminLessTotalRaise = payable(superAdmin).send(superAdminAmt);
-            require(trasnferSuperAdminLessTotalRaise,"Txn failed for the Super Admin when total rasied < hardcap");
-
-        }else if(totalRaised > hardCap){
-            console.log("When totalRasied > hardCap"); 
-            //require(totalRaised > hardCap,"TotalRaised is less than hardCap");
-            console.log("TotalRaised", totalRaised);
-
-            // Calculating Admin and SuperAdmin to transfer.
-            superAdminAmt = (hardCap.mul(feePercent)).div(100);
-            adminAmount = hardCap.sub(superAdminAmt);
-            console.log("superAdminAmt When total rasied > hardcap ",superAdminAmt);
-            console.log("adminAmount When total rasied > hardcap",adminAmount);
-
-            //Admin fee transfer when totalRaised > hardCap
-            bool successTransferAdmin = payable(contractCreator).send(adminAmount);
-            require(successTransferAdmin,"Txn failed for the admin when total rasied > hardcap");
+            (bool trasnferSuperAdminTotalRaise,) = payable(superAdmin).call{value:superAdminAmt}("");
+            string memory con2 = "Txn failed for the Super Admin when there is no hardcap set : ";
+            require(trasnferSuperAdminTotalRaise, string(abi.encodePacked(con2, trasnferSuperAdminTotalRaise)));
             
-            
-            //superAdmin fee transfer when totalRaised > hardCap
-            bool sucessTransferSuperAdmin = payable(superAdmin).send(superAdminAmt);
-            require(sucessTransferSuperAdmin,"Txn failed for the SuperAdmin when total rasied > hardcap");
-
-
-            //Returning the overflow value to the contributors
-            uint refundAmountPerContributor = totalRaised.sub(hardCap).div(numOfContributors);
-            console.log("refundAmountPerContributor", refundAmountPerContributor);
-
-            console.log("Checking every contributor");
-            for(uint i = 0; i < numOfContributors; i++){
-                //address contributor = payable(address(uint160(i)));
-                address contributor = contributorsList[i];
-                console.log("contributor list" , contributor);
-                
-                uint contribution = contributions[contributor];
-                if(contribution > refundAmountPerContributor){
-                    require(contributor != address(0) || contributor != 0x0000000000000000000000000000000000000000,"Not a valid address");
-                    console.log("Are we really refunding to the users");
-                    (bool contributorSend,) = payable(contributor).call{value:refundAmountPerContributor}("");
-                    string memory con1 = "Refund failed for contributor: ";
-                    require(contributorSend, string(abi.encodePacked(con1, contributor)));
-                }
-                console.log("return Amount", refundAmountPerContributor);
-            }
-        }else if(totalRaised == hardCap){
-            console.log("When totalRasied == hardCap"); 
-            console.log("TotalRaised", totalRaised);
-
-            // Calculating Admin and SuperAdmin to transfer.
-            superAdminAmt = (hardCap.mul(feePercent)).div(100);
-            adminAmount = hardCap.sub(superAdminAmt);
-            console.log("superAdminAmt When total rasied == hardcap ",superAdminAmt);
-            console.log("adminAmount When total rasied == hardcap",adminAmount);
-
-            //Admin fee transfer when totalRaised > hardCap
-            bool successTransferAdmin = payable(contractCreator).send(adminAmount);
-            require(successTransferAdmin,"Txn failed for the admin when total rasied == hardcap");
-            
-            
-            //superAdmin fee transfer when totalRaised > hardCap
-            bool sucessTransferSuperAdmin = payable(superAdmin).send(superAdminAmt);
-            require(sucessTransferSuperAdmin,"Txn failed for the SuperAdmin when total rasied == hardcap");
-        }      
-         
+        }
 
         totalRaised = 0;
         numOfContributors = 0;
         raiseStarted = false;
         raiseEnded = true;
-
     }
+
+
 
     receive() external payable {
         revert("Contract does not accept direct payments");

@@ -90,7 +90,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_stableCoin",
+						"name": "_usdtAddress",
 						"type": "address"
 					},
 					{
@@ -260,19 +260,19 @@
 			]
 		},
 		"contracts/factoryContract.sol": {
-			"keccak256": "0x23f33e8c8bdadda7d6232944c41d95f969228a133511e964d06da27c07c7c701",
+			"keccak256": "0x9880048ba9168f71db146a376c66e22af3330b89ade12230bf9302db6fd712ad",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d9bf0491e1ea51968ddd931dc4e30917e6680c8245d3275193b3309a05b8b52b",
-				"dweb:/ipfs/QmeD3mWektCWG7JiD9KAD2aszKN1mJehP3yX8Kc3QnUf7E"
+				"bzz-raw://212b86b18b47eb648c9934762398ea1dbfed153a5eeeaec6c9707c3515a12419",
+				"dweb:/ipfs/QmdSrv5fiRzh6ZXBQQZaJFjZj3zzYWpVNmRoLCgz3c1cZa"
 			]
 		},
 		"contracts/usdt_new_raising.sol": {
-			"keccak256": "0xc26a63b3d86ac654f5a5e8171f9774982042f1ef0f2f8b5b7bb428910c308048",
+			"keccak256": "0x3334acd8c22d3a611e403029c05ccf9087d8ab8e82deb93521c2ac84fa40d6c8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://19f8317188ba69e12be55947495015bf041888b15ba6fcf2b5db5f3a697d7d56",
-				"dweb:/ipfs/QmQNHSSAY9Zicp2S1HVs5DtBTm6EC9wTTCoXAw2wWaLJeL"
+				"bzz-raw://66540e7f749a1a15d09efca29008df58a8d8b0fbfe22526f49e68cf9ebb6708c",
+				"dweb:/ipfs/Qmf2fdNch23bLK5dVqaJtYrbP6iw7CeUzvw5B77hgUZUG7"
 			]
 		},
 		"hardhat/console.sol": {

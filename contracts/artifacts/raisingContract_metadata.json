@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.20+commit.a1b79de6"
+		"version": "0.8.25+commit.b61c2a91"
 	},
 	"language": "Solidity",
 	"output": {
@@ -13,13 +13,13 @@
 						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "_hardcap",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "_superAdmin",
+						"type": "address"
 					},
 					{
 						"internalType": "address",
-						"name": "_superAdmin",
+						"name": "stableCoin",
 						"type": "address"
 					},
 					{
@@ -56,6 +56,19 @@
 				],
 				"name": "AccessControlUnauthorizedAccount",
 				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_endTime",
+						"type": "uint256"
+					}
+				],
+				"name": "EndTimeSet",
+				"type": "event"
 			},
 			{
 				"anonymous": false,
@@ -176,6 +189,19 @@
 				"inputs": [
 					{
 						"indexed": false,
+						"internalType": "uint256",
+						"name": "_startTime",
+						"type": "uint256"
+					}
+				],
+				"name": "StartTimeSet",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
 						"internalType": "address",
 						"name": "_account",
 						"type": "address"
@@ -257,8 +283,50 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "WhitelistAmount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "_accounts",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_contributions",
+						"type": "uint256[]"
+					}
+				],
+				"name": "addMultipleToWhitelist",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "_account",
 						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
 					}
 				],
 				"name": "addToWhitelist",
@@ -280,7 +348,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
 				"name": "contribute",
 				"outputs": [],
 				"stateMutability": "payable",
@@ -325,14 +399,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "disableWhitelist",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_setHardCap",
+						"type": "uint256"
+					}
+				],
 				"name": "enableWhitelist",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -467,6 +540,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "isHardCapSet",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "maxContribution",
 				"outputs": [
 					{
@@ -583,6 +669,19 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "_endTime",
+						"type": "uint256"
+					}
+				],
+				"name": "setEndTime",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "_feePercent",
 						"type": "uint256"
 					}
@@ -627,6 +726,19 @@
 					}
 				],
 				"name": "setMinContribution",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_startTime",
+						"type": "uint256"
+					}
+				],
+				"name": "setStartTime",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -691,6 +803,19 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "usdtToken",
+				"outputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -788,9 +913,9 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/RaisingContract.sol": "raisingContract"
+			"contracts/usdt_new_raising.sol": "raisingContract"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "cancun",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -826,6 +951,14 @@
 				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
 			]
 		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ea104e577e63faea3b69c415637e99e755dcbf64c5833d7140c35a714d6d90c",
+				"dweb:/ipfs/Qmau6x4Ns9XdyynRCNNp3RhLqijJjFm7z5fyZazfYFGYdq"
+			]
+		},
 		"@openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
 			"license": "MIT",
@@ -858,12 +991,12 @@
 				"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ"
 			]
 		},
-		"contracts/RaisingContract.sol": {
-			"keccak256": "0x8f1b49f60d59458744da7cac72e07eb8e393d6d36ccd4064f37f25699daeb7f2",
+		"contracts/usdt_new_raising.sol": {
+			"keccak256": "0x3334acd8c22d3a611e403029c05ccf9087d8ab8e82deb93521c2ac84fa40d6c8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bd61b126fb53f3df94482a305463e93e8fe10860882eb0b203bb7d76a087341a",
-				"dweb:/ipfs/QmNcU8bGLGb59kyZuETirMM2b7qTRgeHAYFf6Gtx32mXhb"
+				"bzz-raw://66540e7f749a1a15d09efca29008df58a8d8b0fbfe22526f49e68cf9ebb6708c",
+				"dweb:/ipfs/Qmf2fdNch23bLK5dVqaJtYrbP6iw7CeUzvw5B77hgUZUG7"
 			]
 		},
 		"hardhat/console.sol": {

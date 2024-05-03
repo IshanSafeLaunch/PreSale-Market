@@ -31,9 +31,9 @@ contract factoryContract {
     event preSaleChargesEvent(uint _fee);
     
     // Function to create a new raising contract
-    function createRaisingContract(address _stableCoin, uint _maxContribution,uint _minContribution) external payable  {
+    function createRaisingContract(address _usdtAddress ,uint _maxContribution,uint _minContribution) external payable  {
         require(msg.sender != superAdmin,"Cannot be a Super Admin");
-        raisingContract newRaisingContract = new raisingContract(msg.sender,_stableCoin,superAdmin,_maxContribution,_minContribution);
+        raisingContract newRaisingContract = new raisingContract(msg.sender,superAdmin,_usdtAddress,_maxContribution,_minContribution);
         raisingContracts.push(newRaisingContract); 
 
         emit RaisingContractCreated(address(newRaisingContract), msg.sender,superAdmin,block.timestamp);
