@@ -24,6 +24,8 @@ contract raisingContract is AccessControl, ReentrancyGuard{
 
     bool public raiseStarted;
     bool public raiseEnded;
+    uint public startTime;
+    uint public endTime;
 
     uint public numOfContributors;
     address[] public contributorsList;
@@ -62,11 +64,10 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     }
 
     function startRaise() external adminOrsuperAdmin {
-        require(!raiseStarted, "Raise already started");
+        require(!raiseStarted, "Raise not started yet");
         raiseStarted = true;
         emit raiseStartedEvent();
     }
-
 
     function endRaise() external adminOrsuperAdmin {
         require(!raiseEnded, "Raise already ended");

@@ -347,6 +347,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "endTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "feePercent",
 				"outputs": [
 					{
@@ -627,6 +640,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "startTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "superAdmin",
 				"outputs": [
 					{
@@ -833,11 +859,11 @@
 			]
 		},
 		"contracts/RaisingContract.sol": {
-			"keccak256": "0x8d2e508b824329a62d2170b962843107da0784d0ea415adefe7f5b96ca7f7dc5",
+			"keccak256": "0x8f1b49f60d59458744da7cac72e07eb8e393d6d36ccd4064f37f25699daeb7f2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3ab317c80a7dd67e194de7ec743a54a324fd5d750ee0d158bd879f9d1e179371",
-				"dweb:/ipfs/Qma8Ehw3LNJyYqGpMxFWnAg12NLWWry1dGwE62Ab5TKLwa"
+				"bzz-raw://bd61b126fb53f3df94482a305463e93e8fe10860882eb0b203bb7d76a087341a",
+				"dweb:/ipfs/QmNcU8bGLGb59kyZuETirMM2b7qTRgeHAYFf6Gtx32mXhb"
 			]
 		},
 		"hardhat/console.sol": {

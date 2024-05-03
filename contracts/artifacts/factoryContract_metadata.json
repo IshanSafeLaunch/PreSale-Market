@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.20+commit.a1b79de6"
+		"version": "0.8.25+commit.b61c2a91"
 	},
 	"language": "Solidity",
 	"output": {
@@ -89,9 +89,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_hardCap",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "_stableCoin",
+						"type": "address"
 					},
 					{
 						"internalType": "uint256",
@@ -183,7 +183,7 @@
 		"compilationTarget": {
 			"contracts/factoryContract.sol": "factoryContract"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "cancun",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -219,6 +219,14 @@
 				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
 			]
 		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ea104e577e63faea3b69c415637e99e755dcbf64c5833d7140c35a714d6d90c",
+				"dweb:/ipfs/Qmau6x4Ns9XdyynRCNNp3RhLqijJjFm7z5fyZazfYFGYdq"
+			]
+		},
 		"@openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
 			"license": "MIT",
@@ -251,20 +259,20 @@
 				"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ"
 			]
 		},
-		"contracts/RaisingContract.sol": {
-			"keccak256": "0x8d2e508b824329a62d2170b962843107da0784d0ea415adefe7f5b96ca7f7dc5",
+		"contracts/factoryContract.sol": {
+			"keccak256": "0x23f33e8c8bdadda7d6232944c41d95f969228a133511e964d06da27c07c7c701",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3ab317c80a7dd67e194de7ec743a54a324fd5d750ee0d158bd879f9d1e179371",
-				"dweb:/ipfs/Qma8Ehw3LNJyYqGpMxFWnAg12NLWWry1dGwE62Ab5TKLwa"
+				"bzz-raw://d9bf0491e1ea51968ddd931dc4e30917e6680c8245d3275193b3309a05b8b52b",
+				"dweb:/ipfs/QmeD3mWektCWG7JiD9KAD2aszKN1mJehP3yX8Kc3QnUf7E"
 			]
 		},
-		"contracts/factoryContract.sol": {
-			"keccak256": "0x61ce2dd17f4f5f7d00aa592c549bbcdf80121584b16cd5e2229fe4be3a45258b",
+		"contracts/usdt_new_raising.sol": {
+			"keccak256": "0xc26a63b3d86ac654f5a5e8171f9774982042f1ef0f2f8b5b7bb428910c308048",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6d4e8e48733d90836c038b89261f9daa0954d2545fd2ca589a74ecf5eb29731d",
-				"dweb:/ipfs/QmaNFGxyyCrEGkS6QuJsc189VDmj9oKj3fgTAGiZ78YLjg"
+				"bzz-raw://19f8317188ba69e12be55947495015bf041888b15ba6fcf2b5db5f3a697d7d56",
+				"dweb:/ipfs/QmQNHSSAY9Zicp2S1HVs5DtBTm6EC9wTTCoXAw2wWaLJeL"
 			]
 		},
 		"hardhat/console.sol": {

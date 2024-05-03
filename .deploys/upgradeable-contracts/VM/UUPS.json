@@ -1,0 +1,11 @@
+{
+  "id": "-",
+  "network": "VM",
+  "deployments": {
+    "0xD70cc1336ecf0B8FaD791e010CA6aC5F82980A38": {
+      "date": "2024-05-01T16:42:37.469Z",
+      "contractName": "VestingContractUpdatedV1",
+      "implementationAddress": "0x50227021f746AFEc12b167a7c520a1Fe1938dAff"
+    }
+  }
+}

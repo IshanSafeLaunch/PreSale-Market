@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "./RaisingContract.sol";
+import "./usdt_new_raising.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hardhat/console.sol";
+
 
 
 contract factoryContract {
@@ -29,9 +31,9 @@ contract factoryContract {
     event preSaleChargesEvent(uint _fee);
     
     // Function to create a new raising contract
-    function createRaisingContract(uint _hardCap,uint _maxContribution,uint _minContribution) external payable  {
+    function createRaisingContract(address _stableCoin, uint _maxContribution,uint _minContribution) external payable  {
         require(msg.sender != superAdmin,"Cannot be a Super Admin");
-        raisingContract newRaisingContract = new raisingContract(msg.sender,_hardCap,superAdmin,_maxContribution,_minContribution);
+        raisingContract newRaisingContract = new raisingContract(msg.sender,_stableCoin,superAdmin,_maxContribution,_minContribution);
         raisingContracts.push(newRaisingContract); 
 
         emit RaisingContractCreated(address(newRaisingContract), msg.sender,superAdmin,block.timestamp);
