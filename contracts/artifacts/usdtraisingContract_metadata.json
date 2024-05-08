@@ -848,7 +848,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/usdt.sol": "usdtraisingContract"
+			"contracts/usdt_new_raising.sol": "usdtraisingContract"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -926,12 +926,12 @@
 				"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ"
 			]
 		},
-		"contracts/usdt.sol": {
-			"keccak256": "0x561299e69652c4a66f9f482fd2afdd5d25e41e52cb56cc87b9f82f4ab66ecef6",
+		"contracts/usdt_new_raising.sol": {
+			"keccak256": "0x4032db724251e122394395d7b8912a6d0d72540f9f8c3419f8925b664d8b402b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://94d80e5471e5b433ddc566d00c4d9ba12b717364226edabcd15cbdc947ad7329",
-				"dweb:/ipfs/QmU6h356jEGveMdvJddbt2eqowTeZQxgXorohMUhdG61D6"
+				"bzz-raw://4f94ba7a7ebe608c2a9a209b15cb06057f6671e1a2d269435826c2639d97e2f7",
+				"dweb:/ipfs/Qmbs5imPgraEXeurVKaYahVWszhPfh7irEMCV3sbPNCknN"
 			]
 		},
 		"hardhat/console.sol": {
