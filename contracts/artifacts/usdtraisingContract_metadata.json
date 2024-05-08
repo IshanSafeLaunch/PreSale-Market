@@ -927,11 +927,11 @@
 			]
 		},
 		"contracts/usdt_new_raising.sol": {
-			"keccak256": "0x4032db724251e122394395d7b8912a6d0d72540f9f8c3419f8925b664d8b402b",
+			"keccak256": "0x2316bc9dd06b8da0f83e8c6590bc00417e91b56919b71bf5ae0557ee6ed84e5b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4f94ba7a7ebe608c2a9a209b15cb06057f6671e1a2d269435826c2639d97e2f7",
-				"dweb:/ipfs/Qmbs5imPgraEXeurVKaYahVWszhPfh7irEMCV3sbPNCknN"
+				"bzz-raw://1f137330c82702666061c2c2e3a46b4e1c01abb727f500a4a503b4be9c9f4585",
+				"dweb:/ipfs/QmPzgnv6qLrpy9w6FkcrxWtJMyUebD76AqkZjDhDmwDRDn"
 			]
 		},
 		"hardhat/console.sol": {

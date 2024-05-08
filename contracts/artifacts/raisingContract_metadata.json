@@ -853,11 +853,11 @@
 			]
 		},
 		"contracts/RaisingContract.sol": {
-			"keccak256": "0x22ebdde9bbc63ca614e959d9c8c00f909d8f9e78d90ddbd8cc280ec38752a0c6",
+			"keccak256": "0x1b09ccd86aeec672a4d7062f98c3bb39926378ec9e99ff916bebeec0c89f44be",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fccc5d47ade7a5a1c60cb0da36af900dad450aa2b8c2eb7ae722913f339ea5ab",
-				"dweb:/ipfs/QmcJAcS7AhKnhNoVVepsFY3ViQjPuq4SYZw5kYqzBBnZV2"
+				"bzz-raw://6a4b042afa2f1a9429232f4f045a1171646f06a60c0b6671e3fe48989f99d7bb",
+				"dweb:/ipfs/QmXGu53m9WSsXMBsQqs8cB3bU5upCuTq9xQ3nUEwDebDUk"
 			]
 		},
 		"hardhat/console.sol": {

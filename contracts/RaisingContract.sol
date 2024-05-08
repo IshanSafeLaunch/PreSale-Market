@@ -88,12 +88,12 @@ contract raisingContract is AccessControl, ReentrancyGuard{
     // }
 
     // adding contributors to whitelist
-    function addToWhitelist(address _account) external onlyRole(ADMIN_ROLE) {
+    function addToWhitelist(address _account) external adminOrsuperAdmin{
         whitelist[_account] = true;
         emit WhitelistUpdated(_account, true);
     }
     // removing contributors to whitelist
-    function removeFromWhitelist(address _account) external onlyRole(ADMIN_ROLE) {
+    function removeFromWhitelist(address _account) external adminOrsuperAdmin {
         whitelist[_account] = false;
         emit WhitelistUpdated(_account, false);
     }

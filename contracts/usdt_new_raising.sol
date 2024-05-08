@@ -112,7 +112,7 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
     // removing contributors to whitelist
     function removeFromWhitelist(address _account)
         external
-        onlyRole(ADMIN_ROLE)
+        adminOrsuperAdmin
     {
         whitelist[_account] = false;
         emit WhitelistUpdated(_account, false);
@@ -349,7 +349,7 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
     }
 
     // setter function for MinContribution
-    function setMinContribution(uint256 _min) external onlyRole(ADMIN_ROLE) {
+    function setMinContribution(uint256 _min) external adminOrsuperAdmin {
         minContribution = _min;
         emit MinContributionSet(_min);
     }
@@ -359,7 +359,7 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
     function addMultipleToWhitelist(
         address[] calldata _accounts,
         uint256[] calldata _contributions
-    ) external onlyRole(ADMIN_ROLE) {
+    ) external adminOrsuperAdmin {
         require(
             _accounts.length == _contributions.length,
             "Arrays length mismatch"
@@ -396,7 +396,7 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
     }
 
     //setter function for MaxContribution
-    function setMaxContribution(uint256 _max) external onlyRole(ADMIN_ROLE) {
+    function setMaxContribution(uint256 _max) external adminOrsuperAdmin {
         maxContribution = _max;
         emit MaxContributionSet(_max);
     }
@@ -404,7 +404,7 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
     //setter function for increaseHardCap
     function increaseHardCap(uint256 _newHardCap)
         external
-        onlyRole(ADMIN_ROLE)
+        adminOrsuperAdmin
     {
         hardCap = _newHardCap;
         emit HardCapIncreased(_newHardCap);
@@ -416,7 +416,7 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
     }
 
     // setter function for changingFeePercentage
-    function setFeePercent(uint256 _feePercent) external onlyRole(ADMIN_ROLE) {
+    function setFeePercent(uint256 _feePercent) external adminOrsuperAdmin {
         feePercent = _feePercent;
     }
 
