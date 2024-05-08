@@ -18,11 +18,6 @@
 						"type": "address"
 					},
 					{
-						"internalType": "address",
-						"name": "stableCoin",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "_maxContribution",
 						"type": "uint256"
@@ -56,19 +51,6 @@
 				],
 				"name": "AccessControlUnauthorizedAccount",
 				"type": "error"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_endTime",
-						"type": "uint256"
-					}
-				],
-				"name": "EndTimeSet",
-				"type": "event"
 			},
 			{
 				"anonymous": false,
@@ -189,19 +171,6 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "_startTime",
-						"type": "uint256"
-					}
-				],
-				"name": "StartTimeSet",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
 						"internalType": "address",
 						"name": "_account",
 						"type": "address"
@@ -283,50 +252,8 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "WhitelistAmount",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address[]",
-						"name": "_accounts",
-						"type": "address[]"
-					},
-					{
-						"internalType": "uint256[]",
-						"name": "_contributions",
-						"type": "uint256[]"
-					}
-				],
-				"name": "addMultipleToWhitelist",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
 						"name": "_account",
 						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_amount",
-						"type": "uint256"
 					}
 				],
 				"name": "addToWhitelist",
@@ -348,13 +275,7 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
+				"inputs": [],
 				"name": "contribute",
 				"outputs": [],
 				"stateMutability": "payable",
@@ -540,19 +461,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "isHardCapSet",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "maxContribution",
 				"outputs": [
 					{
@@ -669,19 +577,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_endTime",
-						"type": "uint256"
-					}
-				],
-				"name": "setEndTime",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "_feePercent",
 						"type": "uint256"
 					}
@@ -726,19 +621,6 @@
 					}
 				],
 				"name": "setMinContribution",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_startTime",
-						"type": "uint256"
-					}
-				],
-				"name": "setStartTime",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -803,19 +685,6 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "usdtToken",
-				"outputs": [
-					{
-						"internalType": "contract IERC20",
-						"name": "",
-						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -913,7 +782,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/usdt_new_raising.sol": "raisingContract"
+			"contracts/RaisingContract.sol": "raisingContract"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -951,14 +820,6 @@
 				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
 			]
 		},
-		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-			"keccak256": "0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://0ea104e577e63faea3b69c415637e99e755dcbf64c5833d7140c35a714d6d90c",
-				"dweb:/ipfs/Qmau6x4Ns9XdyynRCNNp3RhLqijJjFm7z5fyZazfYFGYdq"
-			]
-		},
 		"@openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
 			"license": "MIT",
@@ -991,12 +852,12 @@
 				"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ"
 			]
 		},
-		"contracts/usdt_new_raising.sol": {
-			"keccak256": "0x3334acd8c22d3a611e403029c05ccf9087d8ab8e82deb93521c2ac84fa40d6c8",
+		"contracts/RaisingContract.sol": {
+			"keccak256": "0x72f655eca9d754cd0cf6ef2e629ce1a2d713f32cc025b9e044602aae43e52d72",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://66540e7f749a1a15d09efca29008df58a8d8b0fbfe22526f49e68cf9ebb6708c",
-				"dweb:/ipfs/Qmf2fdNch23bLK5dVqaJtYrbP6iw7CeUzvw5B77hgUZUG7"
+				"bzz-raw://e2752295e779624d91f7177f5facf614b4a41c023e01bab87e6c3b6546f6a48b",
+				"dweb:/ipfs/QmeYkKSCdhj1PeAZoRov27iPqoNYCddc3HeQHR7DBAfWGL"
 			]
 		},
 		"hardhat/console.sol": {

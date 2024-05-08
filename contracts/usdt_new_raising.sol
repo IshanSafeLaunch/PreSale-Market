@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract raisingContract is AccessControl, ReentrancyGuard {
+contract usdtraisingContract is AccessControl, ReentrancyGuard {
     using SafeMath for uint256;
     IERC20 public usdtToken;
     // defining access control
@@ -20,9 +20,7 @@ contract raisingContract is AccessControl, ReentrancyGuard {
     uint256 public hardCap;
     uint256 public minContribution;
     uint256 public maxContribution;
-    // New state variables for start and end time
-    uint256 public startTime;
-    uint256 public endTime;
+   
 
     bool public raiseStarted;
     bool public raiseEnded;
@@ -78,20 +76,6 @@ contract raisingContract is AccessControl, ReentrancyGuard {
         _;
     }
 
-    // Function to set start time in UTC format
-    function setStartTime(uint256 _startTime) external adminOrsuperAdmin {
-        require(
-            _startTime > block.timestamp,
-            "Start time must be in the future"
-        );
-        startTime = _startTime;
-    }
-
-    // Function to set end time in UTC format
-    function setEndTime(uint256 _endTime) external adminOrsuperAdmin {
-        require(_endTime > startTime, "End time must be after start time");
-        endTime = _endTime;
-    }
 
     function startRaise() external adminOrsuperAdmin {
         require(!raiseStarted, "Raise already started");
@@ -99,22 +83,16 @@ contract raisingContract is AccessControl, ReentrancyGuard {
         emit raiseStartedEvent();
     }
 
-    function endRaise() external adminOrsuperAdmin {
-        require(!raiseEnded, "Raise already ended");
-        raiseEnded = true;
-        this.finaliseRaise();
-        emit raiseEndedEvent();
-    }
-
     // setter function for changingHardcap
-    function setHardCap(uint256 _hardCap) external adminOrsuperAdmin  {
+    function setHardCap(uint256 _hardCap) internal {
         hardCap = _hardCap;
     }
 
     // Enable the whitelist
     function enableWhitelist(uint _setHardCap) external adminOrsuperAdmin {
+        //require(msg.sender == contractCreator || msg.sender == superAdmin, "No defeined roles set" );
         whitelistEnabled = true;
-        this.setHardCap(_setHardCap);
+        setHardCap(_setHardCap);
     }
 
     // // Disable the whitelist
@@ -151,7 +129,7 @@ contract raisingContract is AccessControl, ReentrancyGuard {
     }
 
     //Contributing tokens
-    function contribute(uint amount) external payable nonReentrant {
+    function contribute(uint amount) public payable nonReentrant {
         require(raiseStarted && !raiseEnded, "Raise must be ongoing");
         require(
             amount >= minContribution &&
@@ -213,9 +191,10 @@ contract raisingContract is AccessControl, ReentrancyGuard {
     }
 
     // Finalising the tokens to all at the end
-    function finaliseRaise() external payable nonReentrant adminOrsuperAdmin() {
+    function finaliseRaise() public payable nonReentrant{
         raiseEnded = true;
-        require(raiseEnded == true, "Raise not ended");
+        require(msg.sender == contractCreator || msg.sender == superAdmin, "No defeined roles set" );
+        require(raiseEnded, "Raise not ended");
         require(totalRaised > 0 && numOfContributors > 0, "RasiedAmout and No of Contributors should be > 0");
 
         uint256 superAdminAmt;
@@ -344,6 +323,8 @@ contract raisingContract is AccessControl, ReentrancyGuard {
             (bool trasnferAdminTotalRaise,) = payable(contractCreator).call{value:adminAmount}("");
             string memory con1 = "Txn failed for the Admin when there is no hardcap set : ";
             require(trasnferAdminTotalRaise, string(abi.encodePacked(con1, trasnferAdminTotalRaise)));
+            // bool sent = payable(contractCreator).transfer(adminAmount);
+            // require(sent, "Failed to send Ether");
 
             //superAdmin fee transfer when totalRaised < hardCap
             (bool trasnferSuperAdminTotalRaise,) = payable(superAdmin).call{value:superAdminAmt}("");
@@ -357,6 +338,19 @@ contract raisingContract is AccessControl, ReentrancyGuard {
         raiseStarted = false;
         raiseEnded = true;
     }
+
+    function endRaise() external {
+        console.log("Value of totalRasied", totalRaised);
+        console.log("Value of Contributors", numOfContributors);
+        require(msg.sender == contractCreator || msg.sender == superAdmin, "No defeined roles set" );
+        require(totalRaised != 0 && numOfContributors != 0, "RasiedAmout and No of Contributors should be > 0");
+        require(!raiseEnded, "Raise already ended");
+        raiseEnded = true;
+
+        finaliseRaise();
+        emit raiseEndedEvent();
+    }
+
 
     receive() external payable {
         revert("Contract does not accept direct payments");

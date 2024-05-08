@@ -2,19 +2,14 @@
 pragma solidity ^0.8.20;
 
 import "./usdt_new_raising.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hardhat/console.sol";
-
 
 
 contract factoryContract {
     // Array to keep track of all deployed raising contracts
-    raisingContract[] public raisingContracts;
+    usdtraisingContract[] public usdtraisingContractsArr;
     address public superAdmin;
     uint superAdminFee = 1 ether;
-
-    raisingContract instance;
     
     constructor(address _superAdmin){
         superAdmin = _superAdmin;   
@@ -33,8 +28,8 @@ contract factoryContract {
     // Function to create a new raising contract
     function createRaisingContract(address _usdtAddress ,uint _maxContribution,uint _minContribution) external payable  {
         require(msg.sender != superAdmin,"Cannot be a Super Admin");
-        raisingContract newRaisingContract = new raisingContract(msg.sender,superAdmin,_usdtAddress,_maxContribution,_minContribution);
-        raisingContracts.push(newRaisingContract); 
+        usdtraisingContract newRaisingContract = new usdtraisingContract(msg.sender,superAdmin,_usdtAddress,_maxContribution,_minContribution);
+        usdtraisingContractsArr.push(newRaisingContract); 
 
         emit RaisingContractCreated(address(newRaisingContract), msg.sender,superAdmin,block.timestamp);
         
@@ -48,7 +43,7 @@ contract factoryContract {
 
     // Function to get the count of raising contracts created
     function getRaisingContractsCount() external view returns (uint) {
-        return raisingContracts.length;
+        return usdtraisingContractsArr.length;
     }
 
     function changingSuperAdmin(address _superAdmin) external onlyRole{
