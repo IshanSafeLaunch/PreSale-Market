@@ -368,7 +368,7 @@ contract raisingContract is AccessControl, ReentrancyGuard{
             // string memory con1 = "Txn failed for the Admin when there is no hardcap set : ";
             // require(trasnferAdminTotalRaise, string(abi.encodePacked(con1, trasnferAdminTotalRaise)));
 
-            bool sent = payable(contractCreator).send(adminAmount);
+            bool sent = payable (contractCreator).send(adminAmount);
             require(sent, "Failed to send Ether");
 
             //superAdmin fee transfer when totalRaised < hardCap

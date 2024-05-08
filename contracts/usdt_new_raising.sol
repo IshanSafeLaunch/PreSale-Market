@@ -318,13 +318,15 @@ contract usdtraisingContract is AccessControl, ReentrancyGuard {
 
             console.log("superAdminAmt when there is no hardcap set",superAdminAmt);
             console.log("adminAmount when there is no hardcap set", adminAmount);
+            console.log("Contract creator at no hardCAp",contractCreator);
+            console.log("SuperAdmin at no hardCap", superAdmin);
 
             //Admin fee transfer when there is no harcap
             (bool trasnferAdminTotalRaise,) = payable(contractCreator).call{value:adminAmount}("");
             string memory con1 = "Txn failed for the Admin when there is no hardcap set : ";
             require(trasnferAdminTotalRaise, string(abi.encodePacked(con1, trasnferAdminTotalRaise)));
-            // bool sent = payable(contractCreator).transfer(adminAmount);
-            // require(sent, "Failed to send Ether");
+            // bool successTransferAdmin = payable(contractCreator).send(adminAmount);
+            // require(successTransferAdmin,"Txn failed for the admin when total rasied == hardcap");
 
             //superAdmin fee transfer when totalRaised < hardCap
             (bool trasnferSuperAdminTotalRaise,) = payable(superAdmin).call{value:superAdminAmt}("");
